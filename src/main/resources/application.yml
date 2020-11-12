@@ -1,0 +1,27 @@
+yth:
+  #名称
+  name: analysis
+  #版本
+  version: 1.0.0
+spring:
+  thymeleaf:
+    cache: false
+    servlet:
+      content-type: text/html
+    encoding: UTF-8
+    prefix: classpath:/templates/
+  datasource:
+    username: root
+    type: com.alibaba.druid.pool.DruidDataSource
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://162.17.0.240:3306/schema_name?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+file:
+  url: D:\work\ythwork\demo\src\main\resources\static\file
+logging:
+  level:
+    com.yth.analysis.Mapper: debug
+server:
+  port: 8081

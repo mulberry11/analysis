@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yth.analysis.mapper.CooperationTbMapper">
+  <resultMap id="BaseResultMap" type="com.yth.analysis.model.CooperationTb">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="goodsname" jdbcType="VARCHAR" property="goodsname" />
+    <result column="goods_norm" jdbcType="VARCHAR" property="goodsNorm" />
+    <result column="goods_mill" jdbcType="VARCHAR" property="goodsMill" />
+    <result column="purchase_price" jdbcType="DOUBLE" property="purchasePrice" />
+    <result column="retail_price" jdbcType="DOUBLE" property="retailPrice" />
+    <result column="goods_stock" jdbcType="INTEGER" property="goodsStock" />
+    <result column="store_stock" jdbcType="INTEGER" property="storeStock" />
+    <result column="year_sales" jdbcType="INTEGER" property="yearSales" />
+    <result column="year_sales_amount" jdbcType="DOUBLE" property="yearSalesAmount" />
+    <result column="year_gross_amount" jdbcType="DOUBLE" property="yearGrossAmount" />
+    <result column="sales_rank" jdbcType="INTEGER" property="salesRank" />
+    <result column="treat" jdbcType="VARCHAR" property="treat" />
+    <result column="ynId" jdbcType="VARCHAR" property="ynid" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="DATE" property="createTime" />
+  </resultMap>
+  <insert id="insert" parameterType="com.yth.analysis.model.CooperationTb">
+    insert into cooperation_tb (id, goodsname, goods_norm, 
+      goods_mill, purchase_price, retail_price, 
+      goods_stock, store_stock, year_sales, 
+      year_sales_amount, year_gross_amount, sales_rank, 
+      `treat`, ynId, remark, 
+      create_time)
+    values (#{id,jdbcType=VARCHAR}, #{goodsname,jdbcType=VARCHAR}, #{goodsNorm,jdbcType=VARCHAR}, 
+      #{goodsMill,jdbcType=VARCHAR}, #{purchasePrice,jdbcType=DOUBLE}, #{retailPrice,jdbcType=DOUBLE}, 
+      #{goodsStock,jdbcType=INTEGER}, #{storeStock,jdbcType=INTEGER}, #{yearSales,jdbcType=INTEGER}, 
+      #{yearSalesAmount,jdbcType=DOUBLE}, #{yearGrossAmount,jdbcType=DOUBLE}, #{salesRank,jdbcType=INTEGER}, 
+      #{treat,jdbcType=VARCHAR}, #{ynid,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yth.analysis.model.CooperationTb">
+    insert into cooperation_tb
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="goodsname != null">
+        goodsname,
+      </if>
+      <if test="goodsNorm != null">
+        goods_norm,
+      </if>
+      <if test="goodsMill != null">
+        goods_mill,
+      </if>
+      <if test="purchasePrice != null">
+        purchase_price,
+      </if>
+      <if test="retailPrice != null">
+        retail_price,
+      </if>
+      <if test="goodsStock != null">
+        goods_stock,
+      </if>
+      <if test="storeStock != null">
+        store_stock,
+      </if>
+      <if test="yearSales != null">
+        year_sales,
+      </if>
+      <if test="yearSalesAmount != null">
+        year_sales_amount,
+      </if>
+      <if test="yearGrossAmount != null">
+        year_gross_amount,
+      </if>
+      <if test="salesRank != null">
+        sales_rank,
+      </if>
+      <if test="treat != null">
+        `treat`,
+      </if>
+      <if test="ynid != null">
+        ynId,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsname != null">
+        #{goodsname,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsNorm != null">
+        #{goodsNorm,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsMill != null">
+        #{goodsMill,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasePrice != null">
+        #{purchasePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="retailPrice != null">
+        #{retailPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="goodsStock != null">
+        #{goodsStock,jdbcType=INTEGER},
+      </if>
+      <if test="storeStock != null">
+        #{storeStock,jdbcType=INTEGER},
+      </if>
+      <if test="yearSales != null">
+        #{yearSales,jdbcType=INTEGER},
+      </if>
+      <if test="yearSalesAmount != null">
+        #{yearSalesAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="yearGrossAmount != null">
+        #{yearGrossAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="salesRank != null">
+        #{salesRank,jdbcType=INTEGER},
+      </if>
+      <if test="treat != null">
+        #{treat,jdbcType=VARCHAR},
+      </if>
+      <if test="ynid != null">
+        #{ynid,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+    <select id="selectEX" resultType="com.yth.analysis.dto.exportEXcelDTO">
+      select id,goodsname,goods_norm,goods_mill,purchase_price,retail_price,treat,ynId,remark from Cooperation_tb
+    </select>
+</mapper>

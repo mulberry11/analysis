@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yth.analysis.mapper.GoodsMapper">
+    <resultMap id="BaseResultMap" type="com.yth.analysis.model.Goods">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="alias" jdbcType="VARCHAR" property="alias"/>
+        <result column="norms" jdbcType="VARCHAR" property="norms"/>
+        <result column="mill" jdbcType="VARCHAR" property="mill"/>
+        <result column="stock" jdbcType="INTEGER" property="stock"/>
+        <result column="bid" jdbcType="DOUBLE" property="bid"/>
+        <result column="cooperate_bid" jdbcType="DOUBLE" property="cooperateBid"/>
+        <result column="retail" jdbcType="DOUBLE" property="retail"/>
+        <result column="purchase" jdbcType="INTEGER" property="purchase"/>
+        <result column="superiority" jdbcType="VARCHAR" property="superiority"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        `id`, `name`, `alias`, norms, mill, stock, bid, cooperate_bid, retail, purchase, superiority
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from goods
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="findAll" resultType="com.yth.analysis.model.Goods">
+        select
+        <include refid="Base_Column_List"/>
+        from goods
+    </select>
+    <select id="findGoods" resultType="com.yth.analysis.model.Goods">
+        select
+        <include refid="Base_Column_List"/>
+        from goods
+        where
+        name LIKE #{name} AND mill LIKE #{mill}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from goods
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.yth.analysis.model.Goods"
+            useGeneratedKeys="true">
+        insert into goods (`name`, `alias`, norms,
+                           mill, stock, bid, cooperate_bid,
+                           retail, purchase, superiority)
+        values (#{name,jdbcType=VARCHAR}, #{alias,jdbcType=VARCHAR}, #{norms,jdbcType=VARCHAR},
+                #{mill,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER}, #{bid,jdbcType=DOUBLE},
+                #{cooperateBid,jdbcType=DOUBLE},
+                #{retail,jdbcType=DOUBLE}, #{purchase,jdbcType=INTEGER}, #{superiority,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.yth.analysis.model.Goods"
+            useGeneratedKeys="true">
+        insert into goods (`name`, `alias`, norms,
+                           mill, stock, bid, cooperate_bid,
+                           retail, purchase, superiority)
+        values (#{name,jdbcType=VARCHAR}, #{alias,jdbcType=VARCHAR}, #{norms,jdbcType=VARCHAR},
+                #{mill,jdbcType=VARCHAR}, #{stock,jdbcType=INTEGER}, #{bid,jdbcType=DOUBLE},
+                #{cooperateBid,jdbcType=DOUBLE},
+                #{retail,jdbcType=DOUBLE}, #{purchase,jdbcType=INTEGER}, #{superiority,jdbcType=VARCHAR})
+    </insert>
+    <insert id="saveList" parameterType="com.yth.analysis.model.Goods" useGeneratedKeys="false">
+        insert into goods (id,`name`, `alias`, norms,
+                           mill)
+        values (#{id},#{name,jdbcType=VARCHAR}, #{alias,jdbcType=VARCHAR}, #{norms,jdbcType=VARCHAR},
+                #{mill,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.yth.analysis.model.Goods">
+        update goods
+        <set>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="alias != null">
+                `alias` = #{alias,jdbcType=VARCHAR},
+            </if>
+            <if test="norms != null">
+                norms = #{norms,jdbcType=VARCHAR},
+            </if>
+            <if test="mill != null">
+                mill = #{mill,jdbcType=VARCHAR},
+            </if>
+            <if test="stock != null">
+                stock = #{stock,jdbcType=INTEGER},
+            </if>
+            <if test="bid != null">
+                bid = #{bid,jdbcType=DOUBLE},
+            </if>
+            <if test="cooperateBid != null">
+                cooperate_bid = #{cooperateBid,jdbcType=DOUBLE},
+            </if>
+            <if test="retail != null">
+                retail = #{retail,jdbcType=DOUBLE},
+            </if>
+            <if test="purchase != null">
+                purchase = #{purchase,jdbcType=INTEGER},
+            </if>
+            <if test="superiority != null">
+                superiority = #{superiority,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.yth.analysis.model.Goods">
+        update goods
+        set `name`        = #{name,jdbcType=VARCHAR},
+            `alias`       = #{alias,jdbcType=VARCHAR},
+            norms         = #{norms,jdbcType=VARCHAR},
+            mill          = #{mill,jdbcType=VARCHAR},
+            stock         = #{stock,jdbcType=INTEGER},
+            bid           = #{bid,jdbcType=DOUBLE},
+            cooperate_bid = #{cooperateBid,jdbcType=DOUBLE},
+            retail        = #{retail,jdbcType=DOUBLE},
+            purchase      = #{purchase,jdbcType=INTEGER},
+            superiority   = #{superiority,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

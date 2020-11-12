@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- 表格页 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta charset="utf-8"/>
+    <title>jqGrid - Ace Admin</title>
+
+    <meta name="description" content="Dynamic tables and grids using jqGrid plugin"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="../static/assets/css/bootstrap.min.css" th:href="@{assets/css/bootstrap.min.css}"/>
+    <link rel="stylesheet"
+          type="text/css" href="../staticnode_modules/bootstrap-fileinput/css/fileinput.min.css"
+          th:href="@{node_modules/bootstrap-fileinput/css/fileinput.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/font-awesome/4.5.0/css/font-awesome.min.css"
+          th:href="@{assets/font-awesome/4.5.0/css/font-awesome.min.css}"/>
+
+    <!-- 页面特定的插件样式 -->
+    <link rel="stylesheet" href="../static/assets/css/jquery-ui.min.css" th:href="@{assets/css/jquery-ui.min.css}"/>
+    <!-- bootstrap时间选择器 -->
+    <link rel="stylesheet" href="../static/assets/css/bootstrap-datepicker3.min.css"
+          th:href="@{assets/css/bootstrap-datepicker3.min.css}"/>
+    <!-- bootstraptable 控件 -->
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.css">
+
+    <!-- 文件上传dropzone组件css -->
+    <link rel="stylesheet" href="../static/assets/css/dropzone.min.css" th:href="@{assets/css/dropzone.min.css}"/>
+    <!-- text fonts -->
+    <link rel="stylesheet" href="../static/assets/css/fonts.googleapis.com.css"
+          th:href="@{assets/css/fonts.googleapis.com.css}"/>
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="../static/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style"
+          th:href="@{assets/css/ace.min.css}"/>
+
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="../static/assets/css/ace-part2.min.css" class="ace-main-stylesheet"
+          th:href="@{assets/css/ace-part2.min.css}"/>
+    <![endif]-->
+    <link rel="stylesheet" href="../static/assets/css/ace-skins.min.css" th:href="@{assets/css/ace-skins.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/ace-rtl.min.css" th:href="@{assets/css/ace-rtl.min.css}"/>
+
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="../static/assets/css/ace-ie.min.css" th:href="@{assets/css/ace-ie.min.css}"/>
+    <![endif]-->
+
+    <!-- inline styles related to this page -->
+
+    <!-- ace设置处理程序 -->
+    <script src="../static/assets/js/ace-extra.min.js" th:src="@{assets/js/ace-extra.min.js}"></script>
+
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+    <!--[if lte IE 8]>
+    <script src="../static/assets/js/html5shiv.min.js" th:src="@{assets/js/html5shiv.min.js}"></script>
+    <script src="../static/assets/js/respond.min.js" th:src="@{assets/js/respond.min.js}"></script>
+    <![endif]-->
+</head>
+
+<body class="no-skin">
+<!--导航栏-->
+<nav th:insert="common::heard"></nav>
+<div class="main-container ace-save-state" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.loadState('main-container')
+        } catch (e) {
+        }
+    </script>
+    <div id="sidebar" class="sidebar responsive ace-save-state">
+        <script type="text/javascript">
+            try {
+                ace.settings.loadState('sidebar')
+            } catch (e) {
+            }
+        </script>
+
+
+        <ul class="nav nav-list">
+            <!-- 数据上传页 -->
+            <li class="">
+                <a href="/userManager">
+                    <i class="menu-icon fa fa-list-alt"></i>
+                    <span class="menu-text"> 角色管理 </span>
+                </a>
+
+                <b class="arrow"></b>
+            </li>
+            <!-- 数据分析页 -->
+            <li class="">
+                <a href="index">
+                    <i class="menu-icon fa fa-picture-o"></i>
+                    <span class="menu-text"> 数据分析 </span>
+                </a>
+
+                <b class="arrow"></b>
+            </li>
+
+
+        </ul><!-- /.nav-list -->
+
+        <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+            <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state"
+               data-icon1="ace-icon fa fa-angle-double-left"
+               data-icon2="ace-icon fa fa-angle-double-right"></i>
+        </div>
+    </div>
+    <!-- 页面主体 -->
+    <div class="main-content">
+        <div class="main-content-inner">
+
+
+            <div class="page-content">
+
+
+                <div class="row">
+
+                    <div class="col-xs-12">
+                        &nbsp;
+                    </div>
+                    <div class="col-xs-12">
+                        <form class="mui-input-group">
+                            <div class="mui-input-row">
+
+                                <div class="col-xs-3">
+                                    <!--循环遍历列表加入选项-->
+                                    <label th:text="选择厂家"></label>
+                                    <select name="form-field-select" id="form-field-select">
+                                        <option th:each="millName:${fileList}" th:text="${millName}" th:id="${millName}"
+                                                th:value="${millName}"></option>
+                                    </select>
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>查询条件&nbsp;&nbsp;&nbsp;</label>
+                                    <input id="selectName" type="text" class="mui-input-clear" placeholder="请输入">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>厂家&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <input id="selectMill" type="text" class="mui-input-clear" placeholder="请输入">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+
+                                <button type="button" class="btn btn-info btn-sm btn-round" onclick="selectList()" >查询</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button type="button" onclick="listcont()" class="btn btn-info btn-sm btn-round">下一条</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button type="button" class="btn btn-info btn-sm btn-round"
+                                        th:onclick="show('fileinput')">
+                                    上传
+                                </button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button type="button" class="btn btn-info btn-sm btn-round"
+                                        th:onclick="show('dataInput')">导入
+                                </button>
+                                <!--<button type="button" class="btn btn-info btn-sm btn-round"
+                                        data-toggle="modal" data-target="#myModal" th:onclick="exportExcel()">导出excel
+                                </button>
+                                &lt;!&ndash;模态框&ndash;&gt;
+                                <div id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel">模态框（Modal）标题</h4>
+                                                <table id="exList"></table>
+                                            </div>
+                                        </div>&lt;!&ndash; /.modal-content &ndash;&gt;
+                                    </div>&lt;!&ndash; /.modal &ndash;&gt;
+                                </div>-->
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col-xs-12">
+                        &nbsp;
+                    </div>
+                    <h2 class="text-danger"><a th:href="@{'/mill'}">合作公司信息</a></h2>
+                    <div class="col-xs-12  widget-box">
+                        <div class="col-xs-12">
+                            &nbsp;
+                        </div>
+                        <form class="mui-input-group">
+                            <div class="mui-input-row">
+                                <div class="col-sm-3">
+                                    <label>货号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <input id="id" name="id" type="text" class="mui-input-clear" placeholder="请输入" readonly>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>品名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <input id="goodsname" name="goodsname" type="text" class="mui-input-clear" placeholder="请输入" readonly>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>规格&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <input id="goodsNorm" name="goodsNorm" type="text" class="mui-input-clear" placeholder="请输入" readonly>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>厂家&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <input id="goodsMill" name="goodsMill" type="text" class="mui-input-clear" placeholder="请输入" readonly>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                </div>
+                                <div class="col-xs-12">&nbsp;</div>
+                                <div class="col-sm-3">
+                                    <label>购进价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <input id="purchasePrice" name="purchasePrice" type="text" class="mui-input-clear" placeholder="请输入" readonly>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>零售价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <input id="retailPrice" name="retailPrice" type="text" class="mui-input-clear" placeholder="请输入" readonly><br>
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>仓库库存&nbsp;&nbsp;&nbsp;</label>
+                                    <input id="goodsStock" type="text" class="mui-input-clear" placeholder="请输入" readonly><br>
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>门店库存&nbsp;&nbsp;&nbsp;</label>
+                                    <input id="storeStock" name="goodsStock" type="text" class="mui-input-clear" placeholder="请输入" readonly><br>
+									
+
+                                </div>
+                                <div class="col-xs-12">&nbsp;</div>
+                                <div class="col-sm-3">
+                                    <label>年销量&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <input id="yearSales" type="text" class="mui-input-clear" placeholder="请输入" readonly><br>
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>年销售额&nbsp;&nbsp;&nbsp;</label>
+                                    <input id="yearSalesAmount" type="text" class="mui-input-clear" placeholder="请输入" readonly><br>
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>年毛利率&nbsp;&nbsp;&nbsp;</label>
+                                    <input id="yearGrossAmount" type="text" class="mui-input-clear" placeholder="请输入" readonly><br>
+
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>销售排名&nbsp;&nbsp;&nbsp;</label>
+                                    <input id="salesRank" type="text" class="mui-input-clear" placeholder="请输入" readonly><br>
+
+                                </div>
+                                <div class="col-xs-12">&nbsp;</div>
+
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <div class="col-xs-12 widget-box">
+                        <div class="col-xs-12">
+                            &nbsp;
+                        </div>
+                        <form class="mui-input-group">
+                            <div class="mui-input-row">
+                                <div class="col-xs-3">
+                                    <label th:text="处理方式"></label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <select name="treat" id="treat">
+                                        <option value="暂不处理" th:text="暂不处理"></option>
+                                        <option value="和盛公司引进" th:text="和盛公司引进"></option>
+                                        <option value="和盛公司价格谈判" th:text="和盛公司价格谈判"></option>
+                                        <option value="请核实信息准确性" th:text="请核实信息准确性"></option>
+                                        <option value="和盛优价品种购进" th:text="和盛优价品种购进"></option>
+                                        <option value="和盛优势品种替换" th:text="和盛优势品种替换"></option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>雨诺编码&nbsp;&nbsp;&nbsp;</label>
+                                    <input id="ynId" type="text" class="mui-input-clear" placeholder="请输入">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                                <div class="col-sm-3">
+                                    <label>备注&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <input id="remake" type="text" class="mui-input-clear" placeholder="请输入">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                            </div>
+                        </form>
+                        <div class="col-xs-12">
+                            &nbsp;
+                        </div>
+
+                    </div>
+
+                    <div class="col-xs-12">
+                        <H2 class="text-success">和盛公司信息</H2>
+                    </div>
+                    <!-- 表格模块 -->
+                    <div class="col-xs-12">
+                        <!-- 表格容器固定表格高度 -->
+                        <div class="panel-footer">
+                            <table data-toggle="table" data-height="450" data-pagination="true" data-locale="zh"
+                                   id="list" th:class="table-bordered">
+                            </table>
+                        </div>
+                        <!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+
+                    <!--上传数据文件-->
+                    <div class="col-sm-4" id="dataInput" style="position: absolute;top: 25%; left: 30%; display: none">
+                        <div class="file-box">
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4 class="widget-title">上传数据文件</h4>
+                                    <div class="widget-toolbar">
+                                        <a href="#" data-action="collapse">
+                                            <i class="ace-icon fa fa-chevron-up"></i>
+                                        </a>
+                                        <a href="#" th:onclick="hide('dataInput')">
+                                            <i class="ace-icon fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <div class="form-group">
+                                            <form th:name="dataInput" action="/dataInput" method="post"
+                                                  enctype="multipart/form-data">
+                                                <input name="file" id="data-id" type="file"
+                                                       data-preview-file-type="any">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 上传比对文件 -->
+                    <div id="fileinput" class="col-sm-4" style="position: absolute;top: 25%; left: 30%; display: none">
+                        <div class="file-box">
+                            <div class="widget-box">
+                                <div class="widget-header">
+                                    <h4 class="widget-title">上传比对文件</h4>
+                                    <div class="widget-toolbar">
+                                        <a href="#" data-action="collapse">
+                                            <i class="ace-icon fa fa-chevron-up"></i>
+                                        </a>
+                                        <a href="#" th:onclick="hide('fileinput')">
+                                            <i class="ace-icon fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="widget-body">
+                                    <div class="widget-main">
+                                        <div class="form-group">
+                                            <form th:name="fileinput" action="/fileinput" method="post"
+                                                  enctype="multipart/form-data">
+                                                <h2 style="text-align:center;">上传合作公司数据</h2>
+                                                <div class="col-xs-12">&nbsp;</div>
+
+                                                <label>厂家</label>
+                                                <input id="millName" class="mui-input-clear" value="">
+                                                <div class="col-xs-12">&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                                                <br>
+                                                <div>
+                                                    <input name="file" id="input-id" type="file"
+                                                           data-preview-file-type="any">
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+
+
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+    </a>
+</div><!-- /.main-container -->
+
+<!-- basic scripts -->
+
+<!--[if !IE]> -->
+<script src="../static/assets/js/jquery-2.1.4.min.js" th:src="@{assets/js/jquery-2.1.4.min.js}"></script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script src="../static/assets/js/jquery-1.11.3.min.js" th:src="@{assets/js/jquery-1.11.3.min.js}"></script>
+<![endif]-->
+<script type="text/javascript">
+    if ('ontouchstart' in document.documentElement) document.write(
+        "<script src='../static/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+</script>
+<script src="../static/assets/js/bootstrap.min.js" th:src="@{assets/js/bootstrap.min.js}"></script>
+
+<!-- 页面特定的插件脚本 -->
+<!-- fileinput 文件上传插件 -->
+<script src="../static/node_modules/bootstrap-fileinput/js/fileinput.min.js"
+        th:src="@{node_modules/bootstrap-fileinput/js/fileinput.min.js}"></script>
+<script src="../static/node_modules/bootstrap-fileinput/js/locales/zh.js"
+        th:src="@{node_modules/bootstrap-fileinput/js/locales/zh.js}"></script>
+<script src="../static/node_modules/bootstrap-fileinput/js/plugins/piexif.min.js"
+        th:src="@{node_modules/bootstrap-fileinput/js/plugins/piexif.min.js}" type="text/javascript"
+        charset="utf-8"></script>
+<script src="../static/node_modules/bootstrap-fileinput/js/plugins/sortable.min.js"
+        th:src="@{node_modules/bootstrap-fileinput/js/plugins/sortable.min.js}" type="text/javascript"
+        charset="utf-8"></script>
+<script src="../static/node_modules/bootstrap-fileinput/themes/fa/theme.js"
+        th:src="@{node_modules/bootstrap-fileinput/themes/fa/theme.js}" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<!-- 文件上传组件dropzone -->
+<script src="../static/assets/js/dropzone.min.js" th:src="@{assets/js/dropzone.min.js}"></script>
+<!-- ace scripts -->
+<script src="../static/assets/js/ace-elements.min.js" th:src="@{assets/js/ace-elements.min.js}"></script>
+<script src="../static/assets/js/ace.min.js" th:src="@{assets/js/ace.min.js}"></script>
+
+<!-- bootstrap table控件js -->
+<script src="https://unpkg.com/bootstrap-table@1.15.3/dist/bootstrap-table.min.js"></script>
+<!-- bootstrap table中文包 -->
+<script src="https://unpkg.com/bootstrap-table@1.15.3/dist/locale/bootstrap-table-zh-CN.min.js"></script>
+<!-- 与此页面相关的内联脚本 -->
+<script src="../static/js/index.js" th:src="@{js/index.js}"></script>
+
+</body>
+</html>
